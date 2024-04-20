@@ -7,8 +7,11 @@ import requests
 
 
 
-sensor = {"velocity":"40", "Temperature": "15", "Humidity": "20"}
+# sensor = {"velocity":"40", "Temperature": "15", "Humidity": "20"}
 
-load= requests.post("https://httpbin.org/post", data=sensor)
+# upLoad= requests.post("https://httpbin.org/post", data=sensor)
 
-print(load.json())
+
+downLoad= requests.get("https://raw.githubusercontent.com/Luko22/Luko22.github.io/main/Sample.json").json()
+
+print(downLoad)
