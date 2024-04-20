@@ -1,4 +1,4 @@
-OBJECTID,LAND,BEZ,LOR_ab_2021,UJAHR,UMONAT,USTUNDE,UWOCHENTAG,UKATEGORIE,UART,UTYP1,ULICHTVERH,IstRad,IstPKW,IstFuss,IstKrad,IstGkfz,IstSonstige,USTRZUSTAND,LINREFX,LINREFY,XGCSWGS84,YGCSWGS84,LOR,STRASSE,quadrant,quadrant_rank
+ObjectID,State,District,LOR_ab_2021,AccidentYear,AccidentMonth,AccidentHour,DayOfWeek,AccidentCategory,AccidentType,AccidentTypeDetail,LightingCondition,InvolvingBike,InvolvingCar,InvolvingPedestrian,InvolvingMotorcycle,InvolvingHGV,InvolvingOther,RoadCondition,GraphicCoord1,GraphicCoord2,LongitudeWGS84,LatitudeWGS84,quadrant,quadrant_rank
 219249,11,3,3701658.0,2021,11,18,2,3,0,3,2,0,1,0,1,0,0,1,"800202,0742","5829640,204","13,42689483","52,53393955",,,3773.0,57.0
 219248,11,7,7501134.0,2021,12,19,7,3,6,2,2,0,1,1,0,0,0,1,"798479,5317","5819049,219","13,39209027","52,43995086",,,4865.0,35.0
 219247,11,4,4100101.0,2021,12,17,4,3,5,2,2,0,1,0,0,0,0,0,"793352,6128","5829680,195","13,32624193","52,53802784",,,4069.0,34.0
