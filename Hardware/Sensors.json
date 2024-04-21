@@ -1,5 +1,7 @@
 {
+    "velocity": "30",
     "Temperature": "15",
-    "Speed": "20"
-    
+    "Humidity": "23",
+    "Speed": "20",
+    "Light": "9"
 }

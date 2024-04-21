@@ -20,12 +20,19 @@ void loop() {
   Serial.print("Hall sensor measurement: ");
   Serial.println(measurement); 
 
-
-  Serial.print("Temperature: ");
   
+
+  for(int i=0;i>100;i++){
+    Serial.print("Temperature: ");
+    int temp=(temprature_sens_read()/(i/10));
+    Serial.print(temp);
+    Serial.println(" F");
+    delay(100);
+  }
+
   // Convert raw temperature in F to Celsius degrees
-  Serial.print((temprature_sens_read() - 32) / 1.8);
-  Serial.println(" C");
+  // Serial.print(temp);
+  // Serial.println(" F");
   delay(500);
 
 }
