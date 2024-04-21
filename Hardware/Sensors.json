@@ -1,5 +1,11 @@
 {
+    "Velocity": "30",
     "Temperature": "15",
-    "Speed": "20"
-    
+    "Humidity": "23",
+    "Light": "9",
+    "Longitude": "52.512937",
+    "Latidude": "13.389481",
+    "Day": "2",
+    "Month": "5",
+    "Hour": "16"
 }

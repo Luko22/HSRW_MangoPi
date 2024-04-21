@@ -21,7 +21,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         self._set_headers()
         
         # Include the sent data in the response
-        response_message = {'message': 'Data received successfully'}
+        response_message = {'message': f'Data received successfully {sensor_data}'}
         response = json.dumps(response_message)
         
         self.wfile.write(response.encode('utf-8'))
