@@ -1,31 +1,26 @@
-//https://gist.github.com/xxlukas42/7e7e18604f61529b8398f7fcc5785251
 #ifdef __cplusplus
 extern "C" {
 #endif
-uint8_t temprature_sens_read();
+uint8_t temperature_sens_read(); 
 #ifdef __cplusplus
 }
 #endif
-uint8_t temprature_sens_read();
 
 void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(115200);
+  Serial.begin(115200);  // Initialize serial communication at 115200 bits per second
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  int measurement = 0;
-  measurement = hallRead();
+  // Read the value from the Hall sensor
+  int measurement = hallRead();  
   Serial.print("Hall sensor measurement: ");
-  Serial.println(measurement); 
+  Serial.println(measurement);
 
-
+  // Read and display the temperature from the onboard sensor
   Serial.print("Temperature: ");
-  
-  // Convert raw temperature in F to Celsius degrees
-  Serial.print((temprature_sens_read() - 32) / 1.8);
+  float temperature = (temperature_sens_read() - 32) / 1.8;  // Assuming the reading is in Fahrenheit
+  Serial.print(temperature);
   Serial.println(" C");
-  delay(500);
 
+  delay(500);  // Wait for half a second before the next read
 }

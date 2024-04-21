@@ -21,13 +21,31 @@ with open("Sensors.json", "r") as file:
 url = "http://127.0.0.1:8080/"  # Change this to your server's address
 
 # Send multiple POST requests with sensor data readings
+print("Sending sensor data to server: ", sensor_data_list)
+post_response = requests.post(url, json=sensor_data_list)
+if post_response.status_code == 200:
+    print("POST request successful")
+    print("Server response:", post_response.json())
+else:
+    print("Error:", post_response.status_code)
+
+
+
 for sensor_data in sensor_data_list:
-    post_response = requests.post(url, json=sensor_data)
+    
+    send_data = json.dumps({
+        sensor_data:  sensor_data_list[sensor_data],
+    })
+
+    print("Sending sensor data to server: ", send_data)
+    post_response = requests.post(url, json=send_data)
+
     if post_response.status_code == 200:
         print("POST request successful")
         print("Server response:", post_response.json())
     else:
         print("Error:", post_response.status_code)
+
 
 # Send a GET request to retrieve all stored sensor data
 get_response = requests.get(url)
