@@ -1,69 +1,52 @@
-#include <ArduinoJson.h>
-#include <SPI.h>
-#include <SD.h>
+#include <SD.h> // Include the SD library
+#include <ArduinoJson.h> // Include the ArduinoJson library
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-#include <esp32-hal-adc.h> // Include ESP32 ADC library
-#ifdef __cplusplus
-}
-#endif
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-uint8_t temprature_sens_read();
-#ifdef __cplusplus
-}
-#endif
-uint8_t temprature_sens_read();
-
-
-#define HALL_SENSOR_PIN 34 // Example pin for Hall sensor on ESP32
-#define JSON_FILENAME "Sensors.json"
+const int chipSelect = 14; // Set the chip select pin for the SD card
 
 void setup() {
-  Serial.begin(115200);
-  if (!SD.begin()) {
+  Serial.begin(9600);
+
+  // Initialize the SD card
+  if (!SD.begin(chipSelect)) {
     Serial.println("SD card initialization failed.");
     return;
   }
+  Serial.println("SD card initialized.");
+
+  // Create and write to the JSON file
+  writeFile("/data.json");
 }
 
 void loop() {
-  int measurement = hallRead();
-  float temp = (temprature_sens_read() - 32) / random(0, 20); // Calculate temperature
+  // Your main code here
+}
 
-  // Create JSON object
-  StaticJsonDocument<64> doc;
-  doc["Hall"] = measurement;
-  doc["Temperature"] = temp;
+void writeFile(const char *filename) {
+  // Create or open the JSON file for writing
+  File file = SD.open(filename, FILE_WRITE);
 
-  // Open JSON file
-  File file = SD.open(JSON_FILENAME, FILE_WRITE);
+  // Check if the file opened successfully
   if (!file) {
-    Serial.println("Failed to open file for writing");
+    Serial.println("Error opening file.");
     return;
   }
 
-  // Serialize JSON to file
-  if (serializeJson(doc, file) == 0) {
-    Serial.println("Failed to write to file");
-  } else {
-    Serial.println("JSON file updated successfully");
-  }
+  // Create a JSON object
+  StaticJsonDocument<200> doc;
 
-  // Close file
+  // Add data to the JSON object
+  doc["temperatures"] = "25";
+  doc["Speed"] = "30";
+
+  // Serialize the JSON object to a string
+  String output;
+  serializeJson(doc, output);
+
+  // Write the JSON data to the file
+  file.println(output);
+
+  // Close the file
   file.close();
 
-  // Print sensor readings to serial monitor
-  Serial.print("Hall sensor measurement: ");
-  Serial.println(measurement);
-  Serial.print("Temperature: ");
-  Serial.print(temp);
-  Serial.println(" C");
-
-  delay(2000);
+  Serial.println("JSON data written to file.");
 }
-
