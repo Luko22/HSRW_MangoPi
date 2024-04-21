@@ -1,3 +1,8 @@
+"""
+Function to generate a map of Berlin using OpenStreetMap data
+
+"""
+
 import osmnx as ox
 import matplotlib.pyplot as plt
 ox.settings.log_console = True
