@@ -26,12 +26,15 @@ class RequestHandler(BaseHTTPRequestHandler):
         if sensor_data:
             risk_severity=risk_model.send_data_to_model(sensor_data)
 
+        print("calculatedd risk_severity")
+
         if risk_severity:
         # Include the sent data in the response
-            response_message = {'message': {sensor_data}}
+            print(f"Sending risk severity ={risk_severity}")
+            response_message = {'message': {risk_severity}}
         else:
+            print("Error, could not send risk severity")
             response_message = {'message': f'Error Risk severity was not calculated'}
-
         response = json.dumps(response_message)
         self.wfile.write(response.encode('utf-8'))
 
