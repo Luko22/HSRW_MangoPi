@@ -1,17 +1,17 @@
 import requests 
 
-# response = requests.get("https://reqres.in/api/users?page=2").json()['data']
-# a=response
-# email= a[0]['email']
-# print(email)
+response = requests.get("http://127.0.0.42:8080/").json()#['data']
+a=response
+email= a[0]['email']
+print(email)
 
-
+# http://127.0.0.42:8080/
 
 # sensor = {"velocity":"40", "Temperature": "15", "Humidity": "20"}
 
 # upLoad= requests.post("https://httpbin.org/post", data=sensor)
 
 
-downLoad= requests.get("https://raw.githubusercontent.com/Luko22/Luko22.github.io/main/Sample.json").json()
+# downLoad= requests.get("https://httpbin.org/get").json()
 
-print(downLoad)
+# print(downLoad['headers']['Accept-Encoding'])
