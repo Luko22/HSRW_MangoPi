@@ -22,7 +22,7 @@ void loop() {
 
   
 
-  for(int i=0;i>100;i++){
+  for(int i=0;i<100;i++){
     Serial.print("Temperature: ");
     int temp=(temprature_sens_read()/(i/10));
     Serial.print(temp);
