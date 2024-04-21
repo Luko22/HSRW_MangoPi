@@ -26,27 +26,24 @@ import json
 with open("Sensors.json", "r") as file:
     sensor_data = json.load(file)
 
-# sensor_data = {
-#     "Temperature": "15",
-#     "Speed": "20"
-# }
-
 url = "http://127.0.0.1:8080/"  # Change this to your server's address
 
-answer = requests.post("http://127.0.0.1:8080/", json=sensor_data)
+# Send POST request with sensor data
+post_response = requests.post(url, json=sensor_data)
 
-if answer.status_code == 200:
-    print("Data sent successfully")
-    print("Server response:", answer.json())
+if post_response.status_code == 200:
+    print("POST request successful")
+    print("Server response:", post_response.json())
 else:
-    print("Error:", answer.status_code)
+    print("Error:", post_response.status_code)
 
 
-response = requests.get("http://127.0.0.1:8080/")
+# Send GET request to retrieve stored sensor data
+get_response = requests.get(url)
 
-if response.status_code == 200:
+if get_response.status_code == 200:
     print("GET request successful")
-    print("Response:")
-    print(response.text)
+    print("Stored Sensor Data:")
+    print(get_response.json())
 else:
-    print("Error:", response.status_code)
+    print("Error:", get_response.status_code)

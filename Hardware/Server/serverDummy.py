@@ -7,38 +7,31 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'application/json')
         self.end_headers()
 
-    # def do_POST(self):
-    #     content_length = int(self.headers['Content-Length'])
-    #     post_data = self.rfile.read(content_length)
-    #     sensor_data = json.loads(post_data.decode('utf-8'))
-
-    #     # Process sensor data
-    #     print("Received sensor data:", sensor_data)
-
-    #     self._set_headers()
-    #     response = json.dumps({'message': 'Data received successfully'})
-    #     self.wfile.write(response.encode('utf-8'))
-
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length)
-        sensor_data = json.loads(post_data.decode('utf-8'))
+        self.sent_data = json.loads(post_data.decode('utf-8'))
 
         # Process sensor data
-        print("Received sensor data:", sensor_data)
+        print("Received sensor data:", self.sent_data)
 
         self._set_headers()
         
         # Include the sent data in the response
-        response_message = {'message': 'Data received successfully', 'sent_data': sensor_data}
+        response_message = {'message': 'Data received successfully', 'sent_data': self.sent_data}
         response = json.dumps(response_message)
         
         self.wfile.write(response.encode('utf-8'))
 
     def do_GET(self):
-        self._set_headers()
-        response = json.dumps({'message': 'GET request received successfully'})
-        self.wfile.write(response.encode('utf-8'))
+        if hasattr(self, 'sent_data'):
+            self._set_headers()
+            response = json.dumps(self.sent_data)
+            self.wfile.write(response.encode('utf-8'))
+        else:
+            self._set_headers()
+            response = json.dumps({'message': 'No data received yet'})
+            self.wfile.write(response.encode('utf-8'))
 
 def run(server_class=HTTPServer, handler_class=RequestHandler, port=8080):
     server_address = ('', port)
