@@ -1,15 +1,7 @@
 # import requests 
 
-# payload = {
-#     "fruit": "Apple",
-#     "size": "Large",
-#     "color": "Red"
-# }
-
-
 # sensor = {"Temperature": "15", 
 #           "Speed": "20"}
-
 
 # response = requests.get("http://127.0.0.42:8080/Sample.Json")#, params= payload)
 # print(response)
@@ -22,28 +14,28 @@
 import requests
 import json
 
-# Load sensor data from file
+# Load multiple sensor data readings from file
 with open("Sensors.json", "r") as file:
-    sensor_data = json.load(file)
+    sensor_data_list = json.load(file)
 
 url = "http://127.0.0.1:8080/"  # Change this to your server's address
 
-# Send POST request with sensor data
-post_response = requests.post(url, json=sensor_data)
+# Send multiple POST requests with sensor data readings
+for sensor_data in sensor_data_list:
+    post_response = requests.post(url, json=sensor_data)
+    if post_response.status_code == 200:
+        print("POST request successful")
+        print("Server response:", post_response.json())
+    else:
+        print("Error:", post_response.status_code)
 
-if post_response.status_code == 200:
-    print("POST request successful")
-    print("Server response:", post_response.json())
-else:
-    print("Error:", post_response.status_code)
-
-
-# Send GET request to retrieve stored sensor data
+# Send a GET request to retrieve all stored sensor data
 get_response = requests.get(url)
 
 if get_response.status_code == 200:
     print("GET request successful")
-    print("Stored Sensor Data:")
-    print(get_response.json())
+    stored_sensor_data = get_response.json()
+    print(stored_sensor_data)
 else:
     print("Error:", get_response.status_code)
+
