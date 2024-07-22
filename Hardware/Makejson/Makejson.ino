@@ -1,52 +1,53 @@
-#include <SD.h> // Include the SD library
-#include <ArduinoJson.h> // Include the ArduinoJson library
+#include <ArduinoJson.h>
+#include <SPIFFS.h>
 
-const int chipSelect = 14; // Set the chip select pin for the SD card
+#ifdef __cplusplus
+extern "C" {
+#endif
+uint8_t temprature_sens_read();
+#ifdef __cplusplus
+}
+#endif
+uint8_t temprature_sens_read();
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
 
-  // Initialize the SD card
-  if (!SD.begin(chipSelect)) {
-    Serial.println("SD card initialization failed.");
+  if (!SPIFFS.begin(true)) {
+    Serial.println("SPIFFS initialization failed!");
     return;
   }
-  Serial.println("SD card initialized.");
-
-  // Create and write to the JSON file
-  writeFile("/data.json");
 }
 
 void loop() {
-  // Your main code here
-}
+  // Read sensor data
+  int measurement = hallRead();
+  int temp = (temprature_sens_read() - 32) / random(0, 20);
 
-void writeFile(const char *filename) {
-  // Create or open the JSON file for writing
-  File file = SD.open(filename, FILE_WRITE);
+  // Create JSON object
+  DynamicJsonDocument doc(128); // Adjust the size based on your JSON structure
+  doc["hall_sensor_measurement"] = measurement;
+  doc["temperature_C"] = temp;
 
-  // Check if the file opened successfully
-  if (!file) {
-    Serial.println("Error opening file.");
-    return;
-  }
-
-  // Create a JSON object
-  StaticJsonDocument<200> doc;
-
-  // Add data to the JSON object
-  doc["temperatures"] = "25";
-  doc["Speed"] = "30";
-
-  // Serialize the JSON object to a string
+  // Serialize JSON to string
   String output;
   serializeJson(doc, output);
 
-  // Write the JSON data to the file
-  file.println(output);
+  // Write JSON to file
+  File file = SPIFFS.open("/data.json", FILE_WRITE);
+  if (!file) {
+    Serial.println("Failed to open file for writing");
+  } else {
+    if (file.print(output)) {
+      Serial.println("File written successfully");
+    } else {
+      Serial.println("Write failed");
+    }
+    file.close();
+  }
 
-  // Close the file
-  file.close();
-
-  Serial.println("JSON data written to file.");
+  // Wait for a few seconds
+  delay(2000);
 }
+
+
